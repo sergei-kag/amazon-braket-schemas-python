@@ -15,6 +15,7 @@ from enum import Enum
 
 from braket.ir.jaqcd.shared_models import (
     Angle,
+    CompilerDirective,
     DampingProbability,
     DampingSingleProbability,
     DoubleControl,
@@ -899,3 +900,40 @@ class Kraus(TwoDimensionalMatrixList, MultiTarget):
         kraus = "kraus"
 
     type = Type.kraus
+
+    """
+    StartPreserveBLock.
+
+    Attributes:
+        type (str): The instruction type. default = "start_preserve_block". (type) is optional.
+            This should be unique among all instruction types.
+
+    Examples:
+        >>> StartPreserveBlock(directive=["StartPreserveBlock"])
+    """
+
+class StartPreserveBlock(CompilerDirective):
+
+    class Type(str, Enum):
+        start_preserve_block = "start_preserve_block"
+
+    type = Type.start_preserve_block
+
+
+class EndPreserveBlock(CompilerDirective):
+    """
+    EndPreserveBLock.
+
+    Attributes:
+        type (str): The instruction type. default = "end_preserve_block". (type) is optional.
+            This should be unique among all instruction types.
+
+    Examples:
+        >>> EndPreserveBlock(directive=["EndPreserveBlock"])
+    """
+
+    class Type(str, Enum):
+        end_preserve_block = "end_preserve_block"
+
+    type = Type.end_preserve_block
+

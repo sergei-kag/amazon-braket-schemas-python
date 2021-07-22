@@ -335,3 +335,18 @@ class MultiState(BaseModel):
     """
 
     states: conlist(constr(regex="^[01]+$", min_length=1), min_items=1)
+
+class CompilerDirective(BaseModel):
+    """
+    A Compiler Directive to preserve a block of code between StartPreserveBlock
+    and EndPreserveBlock directives.
+
+    Attributes:
+        directive (List [Start PreserveBlock | EndPreserveBlock])
+
+    Examples:
+        >>> CompilerDirective (directive="StartPreserveBlock")
+        >>> CompilerDirective (directive="EndPreserveBlock")
+    """
+
+    directive: constr(regex="(Start|End)PreserveBlock")

@@ -47,6 +47,8 @@ from braket.ir.jaqcd.instructions import (
     Rz,
     S,
     Si,
+    StartPreserveBlock,
+    EndPreserveBlock,
     Swap,
     T,
     Ti,
@@ -120,6 +122,11 @@ _valid_noise_channels = {
     TwoQubitDephasing.Type.two_qubit_dephasing: TwoQubitDephasing,
     TwoQubitDepolarizing.Type.two_qubit_depolarizing: TwoQubitDepolarizing,
     Kraus.Type.kraus: Kraus,
+}
+
+_valid_compiler_directives = {
+    StartPreserveBlock.Type.start_preserve_block: StartPreserveBlock,
+    EndPreserveBlock.Type.end_preserve_block: EndPreserveBlock,
 }
 
 Results = Union[Amplitude, Expectation, Probability, Sample, StateVector, DensityMatrix, Variance]
@@ -207,7 +214,9 @@ class Program(BraketSchemaBase):
         2. Validate that the input instructions are supported
         """
         if isinstance(value, BaseModel):
-            if (value.type not in _valid_gates) and (value.type not in _valid_noise_channels):
+            if (value.type not in _valid_gates) and \
+               (value.type not in _valid_noise_channels) and \
+               (value.type not in _valid_compiler_directives):
                 raise ValueError(f"Invalid gate specified: {value} for field: {field}")
             return value
 
@@ -216,6 +225,8 @@ class Program(BraketSchemaBase):
                 return _valid_gates[value["type"]](**value)
             elif value["type"] in _valid_noise_channels:
                 return _valid_noise_channels[value["type"]](**value)
+            elif value["type"] in _valid_compiler_directives:
+                return _valid_compiler_directives[value["type"]](**value)
             else:
                 raise ValueError(f"Invalid gate specified: {value} for field: {field}")
         else:

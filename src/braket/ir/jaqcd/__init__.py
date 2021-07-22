@@ -43,6 +43,8 @@ from braket.ir.jaqcd.instructions import (  # noqa: F401
     Rz,
     S,
     Si,
+    StartPreserveBlock,
+    EndPreserveBlock,
     Swap,
     T,
     Ti,

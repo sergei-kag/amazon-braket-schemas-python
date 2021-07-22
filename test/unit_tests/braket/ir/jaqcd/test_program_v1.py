@@ -14,7 +14,7 @@
 import pytest
 from pydantic import ValidationError
 
-from braket.ir.jaqcd import BitFlip, CNot, Expectation, H
+from braket.ir.jaqcd import BitFlip, CNot, Expectation, H, StartPreserveBlock, EndPreserveBlock
 from braket.ir.jaqcd.program_v1 import Program
 
 
@@ -79,3 +79,9 @@ def test_no_rotation_basis_instruction():
 
 def test_rotation_basis_instruction():
     Program(instructions=[CNot(control=0, target=1)], basis_rotation_instructions=[H(target=1)])
+
+def test_start_preserve_block_instruction ():
+    Program(instructions=[StartPreserveBlock(directive="StartPreserveBlock")])
+
+def test_end_preserve_block_instruction ():
+    Program(instructions=[EndPreserveBlock(directive="EndPreserveBlock")])
